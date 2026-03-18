@@ -1,0 +1,13 @@
+app:
+  name: GiskardFoundry
+  environment: development
+
+agents:
+  default_timeout_seconds: 30
+  enabled:
+    - onenote_agent
+    - gtd_agent
+    - jobsearch_agent
+
+tools:
+  dry_run: true

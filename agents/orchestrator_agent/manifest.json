@@ -1,0 +1,62 @@
+{
+  "name": "orchestrator_agent",
+  "display_name": "Orchestrator Agent",
+  "description": "Placeholder manifest for the orchestrator coordinating domain agents.",
+  "domain": "orchestration",
+  "version": "0.1.0",
+  "entrypoint": "agents.orchestrator_agent.agent:OrchestratorAgent",
+  "prompt_file": "agents/orchestrator_agent/prompts/system_prompt.txt",
+  "tools": [
+    "task_planner_tool",
+    "context_override_tool",
+    "score_tool"
+  ],
+  "instructions": {
+    "system_prompt_ref": "agents/orchestrator_agent/prompts/system_prompt.txt",
+    "operating_policy": "TODO: Define orchestration policy, routing constraints, and output contract."
+  },
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "objective": {
+        "type": "string"
+      },
+      "preferred_agent": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "objective"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "routing": {
+        "type": "object"
+      },
+      "partials": {
+        "type": "array"
+      },
+      "composed": {
+        "type": "object"
+      }
+    }
+  },
+  "mvp": {
+    "status": "scaffolded",
+    "owner": "TODO",
+    "notes": "TODO: finalize orchestration strategy and delegation policy for MVP."
+  },
+  "orchestrator": {
+    "enabled": true,
+    "routing_tags": [
+      "orchestrate",
+      "delegate",
+      "coordination"
+    ]
+  }
+}

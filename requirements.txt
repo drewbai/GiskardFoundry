@@ -1,0 +1,7 @@
+pydantic
+requests
+python-dotenv
+PyYAML
+pytest
+ruff
+jsonschema

@@ -1,0 +1,52 @@
+{
+  "name": "jobsearch_agent",
+  "display_name": "Job Search Agent",
+  "description": "Placeholder manifest for the job search domain agent.",
+  "domain": "job-discovery",
+  "version": "0.1.0",
+  "entrypoint": "agents.jobsearch_agent.agent:JobSearchAgent",
+  "prompt_file": "agents/jobsearch_agent/prompts/system_prompt.txt",
+  "tools": [
+    "job_search_tool",
+    "semantic_description_tool",
+    "score_tool"
+  ],
+  "instructions": {
+    "system_prompt_ref": "agents/jobsearch_agent/prompts/system_prompt.txt",
+    "operating_policy": "TODO: Define sourcing policy, ranking guidance, and output contract."
+  },
+  "mvp": {
+    "status": "scaffolded",
+    "owner": "TODO",
+    "notes": "TODO: finalize job discovery and scoring loop for first MVP increment."
+  },
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "objective": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "objective"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "matches": {
+        "type": "array"
+      }
+    }
+  },
+  "orchestrator": {
+    "enabled": true,
+    "routing_tags": [
+      "jobs",
+      "matching"
+    ]
+  }
+}

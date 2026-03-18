@@ -1,0 +1,52 @@
+{
+  "name": "gtd_agent",
+  "display_name": "GTD Agent",
+  "description": "Placeholder manifest for the GTD domain agent.",
+  "domain": "task-management",
+  "version": "0.1.0",
+  "entrypoint": "agents.gtd_agent.agent:GTDAgent",
+  "prompt_file": "agents/gtd_agent/prompts/system_prompt.txt",
+  "tools": [
+    "task_planner_tool",
+    "context_override_tool",
+    "score_tool"
+  ],
+  "instructions": {
+    "system_prompt_ref": "agents/gtd_agent/prompts/system_prompt.txt",
+    "operating_policy": "TODO: Define GTD planning constraints and decision policy."
+  },
+  "mvp": {
+    "status": "scaffolded",
+    "owner": "TODO",
+    "notes": "TODO: finalize GTD task planning flow for first MVP increment."
+  },
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "objective": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "objective"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "plan": {
+        "type": "array"
+      }
+    }
+  },
+  "orchestrator": {
+    "enabled": true,
+    "routing_tags": [
+      "gtd",
+      "planning"
+    ]
+  }
+}

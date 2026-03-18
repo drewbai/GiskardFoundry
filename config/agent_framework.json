@@ -1,0 +1,15 @@
+{
+  "framework": "placeholder",
+  "version": "0.1.0",
+  "manifest_schema": "config/agent_manifest_schema.json",
+  "orchestrator": {
+    "entrypoint": "orchestrator.orchestrator:GiskardOrchestrator",
+    "strategy": "manifest-routing"
+  },
+  "agent_registry": [
+    "onenote_agent",
+    "gtd_agent",
+    "jobsearch_agent"
+  ],
+  "notes": "TODO: Replace with concrete multi-agent framework wiring."
+}

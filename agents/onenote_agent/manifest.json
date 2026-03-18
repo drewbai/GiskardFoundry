@@ -1,0 +1,52 @@
+{
+  "name": "onenote_agent",
+  "display_name": "OneNote Agent",
+  "description": "Placeholder manifest for the OneNote domain agent.",
+  "domain": "knowledge-management",
+  "version": "0.1.0",
+  "entrypoint": "agents.onenote_agent.agent:OneNoteAgent",
+  "prompt_file": "agents/onenote_agent/prompts/system_prompt.txt",
+  "tools": [
+    "onedrive_list_tool",
+    "onenote_read_tool",
+    "onenote_write_tool"
+  ],
+  "instructions": {
+    "system_prompt_ref": "agents/onenote_agent/prompts/system_prompt.txt",
+    "operating_policy": "TODO: Define behavior contract, safety constraints, and escalation paths."
+  },
+  "mvp": {
+    "status": "scaffolded",
+    "owner": "TODO",
+    "notes": "TODO: finalize OneNote workflows for first MVP increment."
+  },
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "objective": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "objective"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "result": {
+        "type": "object"
+      }
+    }
+  },
+  "orchestrator": {
+    "enabled": true,
+    "routing_tags": [
+      "onenote",
+      "knowledge"
+    ]
+  }
+}
