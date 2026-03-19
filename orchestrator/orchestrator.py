@@ -1,4 +1,4 @@
-"""Giskard Orchestrator scaffold.
+"""Susan_Calvin orchestrator scaffold.
 
 This module provides a minimal orchestration surface that can discover agent
 manifests, register agent classes, and route objectives to a selected agent.
@@ -28,7 +28,7 @@ DEFAULT_DOMAIN_AGENT_CLASSES: dict[str, Any] = {
 }
 
 
-class GiskardOrchestrator:
+class SusanCalvin:
     """Coordinates domain-specific agents using manifest-driven metadata."""
 
     def __init__(self, workspace_root: str = ".") -> None:
@@ -120,3 +120,7 @@ class GiskardOrchestrator:
             "agent": agent_name,
             "response": agent_instance.run(objective),
         }
+
+
+Susan_Calvin = SusanCalvin
+GiskardOrchestrator = SusanCalvin

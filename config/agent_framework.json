@@ -1,15 +1,20 @@
 {
-  "framework": "placeholder",
-  "version": "0.1.0",
+  "framework": "microsoft-agent-framework",
+  "version": "1.0.0rc3",
   "manifest_schema": "config/agent_manifest_schema.json",
   "orchestrator": {
-    "entrypoint": "orchestrator.orchestrator:GiskardOrchestrator",
+    "entrypoint": "orchestrator.orchestrator:Susan_Calvin",
+    "runner_entrypoint": "orchestrator.runner:run_susan_calvin_server",
     "strategy": "manifest-routing"
+  },
+  "hosting": {
+    "adapter": "azure.ai.agentserver.agentframework.from_agent_framework",
+    "protocol": "http"
   },
   "agent_registry": [
     "onenote_agent",
     "gtd_agent",
     "jobsearch_agent"
   ],
-  "notes": "TODO: Replace with concrete multi-agent framework wiring."
+  "notes": "Configured for Microsoft Agent Framework with Foundry-compatible runner wiring."
 }

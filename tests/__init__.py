@@ -1,4 +1,16 @@
-"""Test package scaffold for GiskardFoundry.
+"""Test package for GiskardFoundry.
 
-Future test suites should validate agent contracts, manifests, and tool behavior.
+Holds test scaffolding and future validation suites.
 """
+
+
+class TestsPackageStub:
+	"""Placeholder test package stub."""
+
+	def describe(self) -> str:
+		"""Return a short message for test package scaffolding.
+
+		TODO: Replace with test discovery metadata helpers.
+		"""
+		return "tests package scaffold"
+

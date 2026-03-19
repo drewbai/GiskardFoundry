@@ -3,6 +3,6 @@
 Contains the initial scaffold for coordinating domain-specific Giskard Agents.
 """
 
-from .orchestrator import GiskardOrchestrator
+from .orchestrator import GiskardOrchestrator, Susan_Calvin
 
-__all__ = ["GiskardOrchestrator"]
+__all__ = ["Susan_Calvin", "GiskardOrchestrator"]
