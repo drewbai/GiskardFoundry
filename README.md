@@ -1,119 +1,50 @@
 # GiskardFoundry
 
-GiskardFoundry is the build-space where Giskard Agents are created, tested, and orchestrated.
+GiskardFoundry is a lightweight, deterministic agent framework designed for auditable automation and integration into application-specific systems such as LeadForgeAI.
 
-LeadForgeAI is an external consumer and is **not** part of this repository.
+It provides reusable primitives for configuration loading, prompt resolution, and agent execution while keeping domain logic in consuming applications.
 
-## Project Overview
+## Overview
 
-The package `giskardfoundry` contains:
+Core capabilities:
 
-- domain agents for OneNote, GTD, and job search workflows
-- the `SusanCalvin` orchestrator for routing requests to the right agent
-- Microsoft Agent Framework hosting integration for Foundry runtime
-- test scaffolding for future expansion
+- Configuration bridge via `GFConfig`
+- Prompt and behavior lookup via `PromptRegistry`
+- Minimal agent execution abstraction via `Agent`
+- Orchestration hooks for multi-agent runtime patterns
+
+Design goals:
+
+- deterministic behavior under identical inputs
+- explicit module boundaries and stable integration surface
+- side-effect-free imports for predictable runtime startup
+- portfolio-safe structure with no private scoring or proprietary evaluation rules
 
 ## Public API
 
-This section defines the supported import surface for consumers.
+Use only these imports for integration code:
 
-Stable entrypoints:
+```python
+from giskardfoundry.config import GFConfig
+from giskardfoundry.registry import PromptRegistry
+from giskardfoundry.agents import Agent
+```
 
-- `from giskardfoundry.config import GFConfig`
-- `from giskardfoundry.registry import PromptRegistry`
-- `from giskardfoundry.agents import Agent`
-- `from giskardfoundry.susan_calvin import SusanCalvin`
-- `from giskardfoundry.susan_calvin import run_susan_calvin_server`
+Additional orchestrator entrypoints:
 
-Domain agent references (scaffolded implementations):
+```python
+from giskardfoundry.susan_calvin import SusanCalvin, run_susan_calvin_server
+```
 
-- `from giskardfoundry.agents.onenote_agent import OneNoteAgent`
-- `from giskardfoundry.agents.gtd_agent import GTDAgent`
-- `from giskardfoundry.agents.jobsearch_agent import JobSearchAgent`
+`__init__.py` export surface:
 
-Console entrypoint:
+- `GFConfig`
+- `PromptRegistry`
+- `Agent`
+- `SusanCalvin`
+- `run_susan_calvin_server`
 
-- `giskardfoundry-server`
-
-Compatibility note:
-
-- Modules outside `giskardfoundry/` are considered internal scaffolding and may change without notice.
-
-## LeadForgeAI Integration Boundary
-
-LeadForgeAI should consume GiskardFoundry through a single adapter module:
-
-- `src/leadforgeai/integrations/giskard.py`
-
-Recommended pattern:
-
-- Initialize config via `GFConfig.from_env()`.
-- Resolve prompts via `PromptRegistry.from_config(cfg)`.
-- Create LeadForgeAI-specific agents from a factory function.
-- Avoid direct imports from `giskardfoundry.*` in other LeadForgeAI modules.
-
-Adapter imports:
-
-- `from leadforgeai.integrations.giskard import create_leadforge_agent, get_registry`
-
-## Giskard Agents
-
-Initial domain agents:
-
-- `OneNoteAgent` in `giskardfoundry/agents/onenote_agent.py`
-- `GTDAgent` in `giskardfoundry/agents/gtd_agent.py`
-- `JobSearchAgent` in `giskardfoundry/agents/jobsearch_agent.py`
-
-Each agent exposes a `run()` method with placeholder behavior for future implementation.
-
-## Susan_Calvin Orchestrator
-
-`SusanCalvin` in `giskardfoundry/susan_calvin/orchestrator.py` accepts a list of agent instances and routes incoming requests using simple keyword-based logic.
-
-This is intentionally minimal and designed for future replacement with more advanced routing.
-
-For runtime hosting, use the Microsoft Agent Framework entrypoint in the same module (`run_susan_calvin_server`) which starts the HTTP adapter via `from_agent_framework(...).run_async()`.
-
-## Local Development Installation
-
-1. Create and activate a virtual environment.
-2. Install editable package dependencies:
-
-   `pip install -e .`
-
-3. Configure required Foundry environment variables:
-
-   - `FOUNDRY_PROJECT_ENDPOINT`
-   - `FOUNDRY_MODEL_DEPLOYMENT_NAME`
-
-4. Start the Microsoft Agent Framework server:
-
-   `python -m orchestrator.runner`
-
-   or via installed console script:
-
-   `giskardfoundry-server`
-
-5. Run tests:
-
-   `python -m pytest -q`
-
-## Minimal Example Agent
-
-The repository includes a minimal portfolio-safe example agent under `agents/example_agent`.
-
-What it demonstrates:
-
-- agent class shape (`name`, `run()`)
-- deterministic objective normalization
-- manifest entrypoint wiring and routing tags
-- no external network calls or private evaluation logic
-
-Quick usage:
-
-`python -c "from agents.example_agent.agent import ExampleAgent; print(ExampleAgent().run('Summarize goals for this week'))"`
-
-## Public API Example
+## Example Usage
 
 ```python
 from giskardfoundry.config import GFConfig
@@ -122,63 +53,77 @@ from giskardfoundry.agents import Agent
 
 cfg = GFConfig.from_env()
 registry = PromptRegistry.from_config(cfg)
-prompt = registry.get("example.hello")
+prompt = registry.get("example.hello", default="Hello")
 
-agent = Agent(prompt=prompt, context={"name": "Drew"})
-response = agent.run({"name": "Drew"})
-print(response)
+agent = Agent(prompt=prompt, context={"system": "demo"}, name="example_agent")
+result = agent.run({"name": "Drew"})
+
+print(result)
 ```
 
-## Documentation Roadmap (Missing Sections to Add)
+Expected result characteristics:
 
-To reach operational, portfolio-ready documentation quality, add the following sections:
+- returns structured dictionary payloads
+- no network calls from base primitives
+- deterministic output shape for repeatability
 
-1. **Package Boundaries**
-   - Define what is public (`giskardfoundry/*`) vs internal scaffolding.
-2. **Manifest Contract Reference**
-   - Explain required keys, entrypoint format, and routing tag semantics.
-3. **Tool Registration Guide**
-   - How to add tools safely to `tools/registry.py` and validate deterministic behavior.
-4. **Configuration and Environment Model**
-   - Precedence rules for `.env`, process env vars, and checked-in config artifacts.
-5. **Operational Runbook**
-   - Local startup, health checks, failure modes, and recovery steps.
-6. **Testing Strategy**
-   - Unit vs smoke tests, manifest validation checks, and CI expectations.
-7. **Security and Data Handling**
-   - What data is accepted, persisted, and intentionally excluded.
+## Architecture
 
-## Architecture Diagram Outline
+Current architecture (text-only):
 
-Use this outline to create a single top-level architecture diagram:
+- Consumer applications (for example, LeadForgeAI) call the public API surface.
+- `GFConfig` resolves runtime configuration values.
+- `PromptRegistry` loads and resolves prompts from configuration.
+- `Agent` executes deterministic, structured workflows using resolved prompts.
+- `SusanCalvin` orchestrates multi-agent routing when orchestration is enabled.
 
-1. **Entry Layer**
-   - CLI (`giskardfoundry-server`) and HTTP hosting adapter boundary.
-2. **Orchestration Layer**
-   - `SusanCalvin` and `OrchestratorAgent` routing/delegation flow.
-3. **Domain Agent Layer**
-   - `onenote_agent`, `gtd_agent`, `jobsearch_agent`, `example_agent`.
-4. **Tooling Layer**
-   - Shared `BaseTool`, registry lookup, and concrete tools.
-5. **Configuration Layer**
-   - manifest schema, framework config, runtime environment variables.
-6. **External Boundary**
-   - Foundry runtime APIs and identity/auth dependencies.
+## Installation
 
-Recommended directional edges:
+### Requirements
 
-- Entry Layer -> Orchestration Layer
-- Orchestration Layer -> Domain Agent Layer
-- Domain Agent Layer -> Tooling Layer
-- Orchestration Layer -> Configuration Layer
-- Entry Layer -> External Boundary
+- Python 3.11+
+- virtual environment recommended
 
-## Portfolio Safety and Confidentiality
+### Local setup
 
-This repository intentionally excludes private scoring policies, competitive routing heuristics,
-and proprietary evaluation rules. Public examples must remain deterministic and non-sensitive.
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -e .
+```
+
+### Optional environment variables
+
+- `GF_ENV` (default: `development`)
+- `GF_PROMPTS_PATH` (default: `config/prompts.json`)
+- `FOUNDRY_PROJECT_ENDPOINT` (required for Foundry hosting workflows)
+- `FOUNDRY_MODEL_DEPLOYMENT_NAME` (required for Foundry hosting workflows)
+
+### Run checks
+
+```bash
+python scripts/validate_manifests.py
+python -m pytest -q
+```
+
+## Determinism and Auditability
+
+GiskardFoundry emphasizes reproducible behavior and operational transparency.
+
+Determinism controls:
+
+- pure, side-effect-free module imports
+- explicit configuration defaults in `GFConfig.from_env()`
+- predictable prompt lookup behavior in `PromptRegistry.get()`
+- stable output schema in base `Agent.run()`
+
+Auditability controls:
+
+- explicit config source and environment binding
+- manifest-driven agent metadata
+- structured output payloads suitable for logging and trace pipelines
 
 ## Notes
 
-- This scaffold uses placeholder logic and TODO markers.
-- Domain-agent routing remains scaffolded while runtime hosting uses Microsoft Agent Framework.
+- LeadForgeAI is an external consumer and should import GiskardFoundry through a single adapter boundary.
+- Modules outside the documented public API may change without notice.
