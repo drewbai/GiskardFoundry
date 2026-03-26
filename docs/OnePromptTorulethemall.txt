@@ -1,0 +1,21 @@
+🟫 10. Optional: One Prompt to Run Everything
+If you want a single master prompt to paste into KineticOps or VS Code:
+
+Code
+You are operating across two repositories: GiskardFoundry and LeadForgeAI.
+
+Perform the following:
+
+1. Build full package structure for GiskardFoundry.
+2. Add pyproject.toml.
+3. Generate a complete README.
+4. Create the LeadForgeAI adapter module.
+5. Refactor all imports to use the adapter.
+6. Add a demo workflow script.
+7. Rewrite the LeadForgeAI README.
+8. Add GitHub metadata and CI workflows.
+
+Return:
+- All new files
+- All modified files
+- A commit-by-commit plan
