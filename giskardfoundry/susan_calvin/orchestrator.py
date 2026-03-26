@@ -2,11 +2,18 @@
 
 Coordinates domain agents by selecting an appropriate agent for each request
 and returning that agent's response.
+
+Also exposes a Microsoft Agent Framework hosting entrypoint used for Foundry
+runtime execution.
 """
 
 from __future__ import annotations
 
 from typing import Any
+
+from agents.orchestrator_agent.agent import OrchestratorAgent
+from framework import FoundryAgentFrameworkBridge
+from scripts.check_env import validate_env_vars
 
 
 class SusanCalvin:
@@ -48,3 +55,28 @@ class SusanCalvin:
             "selected_agent": getattr(selected, "name", "unknown"),
             "response": selected.run(request),
         }
+
+
+async def run_susan_calvin_server() -> None:
+    """Run Susan_Calvin through Microsoft Agent Framework HTTP hosting adapter."""
+    missing_env_vars = validate_env_vars()
+    if missing_env_vars:
+        missing_list = ", ".join(missing_env_vars)
+        raise RuntimeError(
+            "Missing required environment variables before startup: "
+            f"{missing_list}. Configure these variables before starting the server."
+        )
+
+    orchestrator_agent = OrchestratorAgent()
+    bridge = FoundryAgentFrameworkBridge()
+
+    if not bridge.framework_available():
+        raise RuntimeError(
+            "Microsoft Agent Framework packages are not installed in this environment."
+        )
+
+    definition = orchestrator_agent.build_framework_agent_definition()
+    await bridge.run_server(
+        agent_name=definition["name"],
+        instructions=definition["instructions"],
+    )

@@ -26,6 +26,7 @@ state/
 cache/
 *.log
 *.tmp
+leadforgeai_output_*.csv
 
 # Tool/build artifacts
 .pytest_cache/

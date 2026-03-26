@@ -1,0 +1,51 @@
+{
+  "name": "example_agent",
+  "display_name": "Example Agent",
+  "description": "Minimal portfolio-safe example agent for framework onboarding.",
+  "domain": "example",
+  "version": "0.1.0",
+  "entrypoint": "agents.example_agent.agent:ExampleAgent",
+  "prompt_file": "agents/example_agent/prompts/system_prompt.txt",
+  "tools": [
+    "context_override_tool"
+  ],
+  "instructions": {
+    "system_prompt_ref": "agents/example_agent/prompts/system_prompt.txt",
+    "operating_policy": "Provide deterministic, non-sensitive example outputs without private evaluation logic."
+  },
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "objective": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "objective"
+    ]
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string"
+      },
+      "result": {
+        "type": "object"
+      }
+    }
+  },
+  "mvp": {
+    "status": "scaffolded",
+    "owner": "public-demo",
+    "notes": "Reference implementation for onboarding and docs."
+  },
+  "orchestrator": {
+    "enabled": true,
+    "routing_tags": [
+      "example",
+      "demo",
+      "reference"
+    ]
+  }
+}

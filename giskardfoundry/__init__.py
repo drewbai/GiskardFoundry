@@ -1,16 +1,14 @@
-"""Top-level package for GiskardFoundry.
+"""Top-level package for GiskardFoundry public APIs."""
 
-This package contains domain agents and orchestration components used to build,
-test, and run Giskard agents.
-"""
+from .agents import Agent
+from .config import GFConfig
+from .registry import PromptRegistry
+from .susan_calvin import SusanCalvin, run_susan_calvin_server
 
-
-class PackageStub:
-    """Placeholder package-level stub for future shared initialization logic."""
-
-    def describe(self) -> str:
-        """Return a short package description.
-
-        TODO: Replace with runtime metadata and package diagnostics.
-        """
-        return "giskardfoundry package scaffold"
+__all__ = [
+    "GFConfig",
+    "PromptRegistry",
+    "Agent",
+    "SusanCalvin",
+    "run_susan_calvin_server",
+]

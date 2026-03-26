@@ -1,15 +1,13 @@
-"""Domain agent package for GiskardFoundry.
+"""Domain agent package for GiskardFoundry."""
 
-Includes the initial set of domain-specific agents.
-"""
+from .base import Agent
+from .gtd_agent import GTDAgent
+from .jobsearch_agent import JobSearchAgent
+from .onenote_agent import OneNoteAgent
 
-
-class AgentsPackageStub:
-    """Placeholder package stub for future shared agent utilities."""
-
-    def list_expected_agents(self) -> list[str]:
-        """Return expected agent module names.
-
-        TODO: Replace with dynamic discovery from package modules.
-        """
-        return ["onenote_agent", "gtd_agent", "jobsearch_agent"]
+__all__ = [
+    "Agent",
+    "OneNoteAgent",
+    "GTDAgent",
+    "JobSearchAgent",
+]
