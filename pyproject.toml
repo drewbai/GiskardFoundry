@@ -21,7 +21,9 @@ classifiers = [
 	"License :: Other/Proprietary License",
 	"Operating System :: OS Independent"
 ]
-dependencies = []
+dependencies = [
+	"pydantic>=2.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/drewbai/GiskardFoundry"
