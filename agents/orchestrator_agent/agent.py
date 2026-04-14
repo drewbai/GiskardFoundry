@@ -158,6 +158,46 @@ class OrchestratorAgent:
             },
         }
 
+    def build_domain_agent_configs(self) -> dict[str, dict[str, str]]:
+        """Build per-domain MAF agent configs from each domain agent's manifest.
+
+        Returns a dict keyed by agent name where each value contains ``name``
+        (MAF-compatible, hyphen-separated) and ``instructions`` (operating policy
+        from the manifest).  Used by ``FoundryAgentFrameworkBridge`` to create
+        one ``AzureAIClient`` per domain agent.
+        """
+        configs: dict[str, dict[str, str]] = {}
+        agents_root = Path(__file__).resolve().parent.parent
+
+        for agent_name, agent_class in self.domain_agents.items():
+            manifest_path = agents_root / agent_name / "manifest.json"
+            if not manifest_path.exists():
+                continue
+            with manifest_path.open("r", encoding="utf-8") as f:
+                import json as _json
+                manifest_data: dict[str, Any] = _json.load(f)
+
+            instructions_block = manifest_data.get("instructions", {})
+            operating_policy = (
+                instructions_block.get("operating_policy", "")
+                if isinstance(instructions_block, dict)
+                else str(instructions_block)
+            )
+            if not operating_policy or operating_policy.startswith("TODO"):
+                operating_policy = (
+                    f"You are the {manifest_data.get('display_name', agent_name)}. "
+                    f"{manifest_data.get('description', '')}"
+                )
+
+            # MAF agent names must be alphanumeric with hyphens (no underscores).
+            maf_name = agent_name.replace("_", "-")
+            configs[agent_name] = {
+                "name": maf_name,
+                "instructions": operating_policy,
+            }
+
+        return configs
+
     def route_task(self, objective: str) -> dict:
         """Route an objective to candidate domain agents.
 

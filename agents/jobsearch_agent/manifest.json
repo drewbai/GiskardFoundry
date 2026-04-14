@@ -13,7 +13,7 @@
   ],
   "instructions": {
     "system_prompt_ref": "agents/jobsearch_agent/prompts/system_prompt.txt",
-    "operating_policy": "TODO: Define sourcing policy, ranking guidance, and output contract."
+    "operating_policy": "You are an expert job search assistant specialising in tech roles. Discover relevant opportunities matching the user's skills and preferences, score each match against their profile, and surface the top candidates with a brief rationale. Assist with tailoring resumes, drafting cover letters, and preparing interview answers. Always respect privacy and do not share personal data."
   },
   "mvp": {
     "status": "scaffolded",

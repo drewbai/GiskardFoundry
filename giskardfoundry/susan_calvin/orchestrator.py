@@ -58,7 +58,12 @@ class SusanCalvin:
 
 
 async def run_susan_calvin_server() -> None:
-    """Run Susan_Calvin through Microsoft Agent Framework HTTP hosting adapter."""
+    """Run Susan_Calvin through Microsoft Agent Framework HTTP hosting adapter.
+
+    Builds a ``WorkflowBuilder`` multi-agent workflow where each domain agent
+    (GTD, OneNote, JobSearch) is backed by its own ``AzureAIClient`` instance.
+    Domain agent instructions are sourced from agent manifests when available.
+    """
     missing_env_vars = validate_env_vars()
     if missing_env_vars:
         missing_list = ", ".join(missing_env_vars)
@@ -76,7 +81,9 @@ async def run_susan_calvin_server() -> None:
         )
 
     definition = orchestrator_agent.build_framework_agent_definition()
+    domain_configs = orchestrator_agent.build_domain_agent_configs() or None
+
     await bridge.run_server(
-        agent_name=definition["name"],
         instructions=definition["instructions"],
+        domain_agent_configs=domain_configs,
     )

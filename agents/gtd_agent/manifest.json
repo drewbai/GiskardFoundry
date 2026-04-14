@@ -13,7 +13,7 @@
   ],
   "instructions": {
     "system_prompt_ref": "agents/gtd_agent/prompts/system_prompt.txt",
-    "operating_policy": "TODO: Define GTD planning constraints and decision policy."
+    "operating_policy": "You are a GTD (Getting Things Done) planning expert. Decompose the user's objective into a prioritised list of next actions using GTD principles: capture, clarify, organise, reflect, and engage. For each action identify context (@home, @errands, @computer, etc.), energy level, and estimated time. Return a structured plan the user can act on immediately."
   },
   "mvp": {
     "status": "scaffolded",

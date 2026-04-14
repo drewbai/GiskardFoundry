@@ -13,7 +13,7 @@
   ],
   "instructions": {
     "system_prompt_ref": "agents/onenote_agent/prompts/system_prompt.txt",
-    "operating_policy": "TODO: Define behavior contract, safety constraints, and escalation paths."
+    "operating_policy": "You are an expert at reading and writing Microsoft OneNote content. Help users capture ideas into notebook pages, retrieve existing notes, organise sections and notebooks, and summarise or link related content. Always confirm the target notebook and section before writing. Preserve existing content structure when updating pages."
   },
   "mvp": {
     "status": "scaffolded",
