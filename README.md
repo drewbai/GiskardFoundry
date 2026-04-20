@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="giskard_github_panel.png" alt="GiskardFoundry Panel" width="220">
+</p>
 # GiskardFoundry
 
 GiskardFoundry is a lightweight, deterministic agent framework designed for auditable automation and integration into application-specific systems such as LeadForgeAI.
