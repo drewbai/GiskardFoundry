@@ -1,5 +1,5 @@
-<p align="left">
-  <img src="giskard_github_panel.png" alt="GiskardFoundry Panel" width="220">
+<p align="center">
+  <img src="assets/giskard_banner.png" alt="GiskardFoundry Banner">
 </p>
 # GiskardFoundry
 
