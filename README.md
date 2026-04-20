@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/giskard_horitzontal.png" alt="GiskardFoundry Banner">
+  <img src="giskard_horitzontal.png" alt="GiskardFoundry Banner">
 </p>
 # GiskardFoundry
 
