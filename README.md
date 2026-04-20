@@ -1,4 +1,4 @@
-<p align="center">
+<p align="left">
   <img src="giskard_github_panel.png" alt="GiskardFoundry Panel" width="220">
 </p>
 # GiskardFoundry
